@@ -256,4 +256,45 @@ class RecruitmentServiceTest {
         assertEquals(model.getRegion(), result.getRegion());
         assertEquals(model.getRecruitmentIds(), result.getRecruitmentIds());
     }
+
+    @Test
+    @DisplayName("[RecruitmentServiceTest][search][Success]")
+    public void search() {
+        String searchText = "Django";
+
+        Long recruitmentId = 1L;
+        BigDecimal compensation = new BigDecimal("1000000");
+        String position = "백엔드 주니어 개발자";
+        String position2 = "Django 백엔드 개발자";
+        String technology = "Django";
+        String name = "원티드랩";
+        String country = "한국";
+        String region = "서울";
+
+        RecruitmentResponseModel recruitment = RecruitmentResponseModel.builder()
+                .recruitmentId(recruitmentId)
+                .name(name)
+                .country(country)
+                .region(region)
+                .position(position)
+                .compensation(compensation)
+                .technology(technology)
+                .build();
+
+        RecruitmentResponseModel recruitment2 = RecruitmentResponseModel.builder()
+                .recruitmentId(recruitmentId)
+                .name(name)
+                .country(country)
+                .region(region)
+                .position(position2)
+                .compensation(compensation)
+                .technology(technology)
+                .build();
+
+        List<RecruitmentResponseModel> list = List.of(recruitment, recruitment2);
+        when(recruitmentRepository.selectAllRecruitments(searchText)).thenReturn(list);
+        List<RecruitmentResponseModel> result = recruitmentService.search(searchText);
+        verify(recruitmentRepository).selectAllRecruitments(searchText);
+        assertSame(list, result);
+    }
 }
