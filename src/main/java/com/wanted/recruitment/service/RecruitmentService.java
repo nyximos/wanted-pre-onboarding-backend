@@ -32,4 +32,10 @@ public class RecruitmentService {
         recruitment.update(recruitmentRequestModel);
         recruitmentRepository.save(recruitment);
     }
+
+    @Transactional
+    public void remove(Long id) {
+        recruitmentValidator.validate(id);
+        recruitmentRepository.deleteById(id);
+    }
 }
