@@ -310,4 +310,59 @@ class RecruitmentServiceTest {
         verify(recruitmentRepository, times(1)).selectAllRecruitments(searchText);
         assertSame(list, result);
     }
+
+
+    @Test
+    @DisplayName("[RecruitmentServiceTest][apply][Success]")
+    public void apply() {
+        Long id = 32L;
+        Long recruitId = 77L;
+        String userId = "test";
+        Long recruitmentId = 1L;
+        Long companyId = 3L;
+        BigDecimal compensation = new BigDecimal("1000000");
+        String position = "백엔드 주니어 개발자";
+        String technology = "Django";
+        String contents = "원티드랩에서 백엔드 주니어 개발자를 채용합니다.";
+
+        RecruitmentEntity recruitment = RecruitmentEntity.builder()
+                .id(recruitmentId)
+                .position(position)
+                .compensation(compensation)
+                .technology(technology)
+                .contents(contents)
+                .companyId(companyId)
+                .build();
+
+        JobApplicationsEntity entity = JobApplicationsEntity.builder()
+                .recruitmentId(recruitId)
+                .userId(userId)
+                .build();
+
+
+        JobApplicationsEntity jobApplications = JobApplicationsEntity.builder()
+                .id(id)
+                .recruitmentId(recruitId)
+                .userId(userId)
+                .build();
+
+        doNothing().when(userValidator).validate(anyString());
+        doNothing().when(jobApplicationValidator).validate(anyString());
+        when(recruitmentValidator.validate(anyLong())).thenReturn(recruitment);
+        when(recruitmentConverter.convert(anyLong(), anyString())).thenReturn(entity);
+        when(jobApplicationsRepository.save(any(JobApplicationsEntity.class))).thenReturn(jobApplications);
+
+        recruitmentService.apply(recruitId, userId);
+
+        assertNotNull(jobApplications);
+        assertEquals(id, jobApplications.getId());
+        assertEquals(recruitId, jobApplications.getRecruitmentId());
+        assertEquals(userId, jobApplications.getUserId());
+
+        verify(userValidator, times(1)).validate(userId);
+        verify(recruitmentValidator, times(1)).validate(recruitId);
+        verify(jobApplicationValidator, times(1)).validate(userId);
+        verify(recruitmentConverter, times(1)).convert(recruitId, userId);
+        verify(jobApplicationsRepository, times(1)).save(entity);
+    }
 }
