@@ -52,4 +52,11 @@ public class RecruitmentController {
     public ResultResponse<List<RecruitmentResponseModel>> search(@RequestParam("search") String searchText) {
         return new ResultResponse<>(recruitmentService.search(searchText));
     }
+
+    @PostMapping("/{recruitId}/{userId}")
+    public ResultResponse apply(@PathVariable("recruitId") Long recruitId,
+                                @PathVariable("userId") String userId) {
+        recruitmentService.apply(recruitId, userId);
+        return new ResultResponse();
+    }
 }

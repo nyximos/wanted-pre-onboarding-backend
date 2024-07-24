@@ -9,10 +9,13 @@ import com.wanted.recruitment.controller.model.response.RecruitmentResponseModel
 import com.wanted.recruitment.converter.RecruitmentConverter;
 import com.wanted.recruitment.persistence.repository.CompanyRepository;
 import com.wanted.recruitment.persistence.repository.RecruitmentRepository;
+import com.wanted.recruitment.persistence.repository.JobApplicationsRepository;
 import com.wanted.recruitment.persistence.repository.entity.CompanyEntity;
 import com.wanted.recruitment.persistence.repository.entity.RecruitmentEntity;
 import com.wanted.recruitment.service.validate.CompanyValidator;
+import com.wanted.recruitment.service.validate.JobApplicationValidator;
 import com.wanted.recruitment.service.validate.RecruitmentValidator;
+import com.wanted.recruitment.service.validate.UserValidator;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,10 +27,13 @@ import java.util.List;
 public class RecruitmentService {
 
     private final CompanyRepository companyRepository;
-    private final CompanyValidator companyValidator;
-    private final RecruitmentValidator recruitmentValidator;
     private final RecruitmentConverter recruitmentConverter;
     private final RecruitmentRepository recruitmentRepository;
+    private final JobApplicationsRepository jobApplicationsRepository;
+    private final UserValidator userValidator;
+    private final CompanyValidator companyValidator;
+    private final RecruitmentValidator recruitmentValidator;
+    private final JobApplicationValidator jobApplicationValidator;
 
     @Transactional
     public void add(RecruitmentRequestModel recruitmentRequestModel) {
@@ -61,5 +67,13 @@ public class RecruitmentService {
 
     public List<RecruitmentResponseModel> search(String searchText) {
         return recruitmentRepository.selectAllRecruitments(searchText);
+    }
+
+    @Transactional
+    public void apply(Long recruitId, String userId) {
+        userValidator.validate(userId);
+        recruitmentValidator.validate(recruitId);
+        jobApplicationValidator.validate(userId);
+        jobApplicationsRepository.save(recruitmentConverter.convert(recruitId, userId));
     }
 }
