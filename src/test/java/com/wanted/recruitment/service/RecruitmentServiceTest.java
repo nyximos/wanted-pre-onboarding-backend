@@ -2,9 +2,12 @@ package com.wanted.recruitment.service;
 
 import com.wanted.recruitment.controller.model.request.RecruitmentRequestModel;
 import com.wanted.recruitment.controller.model.request.RecruitmentUpdateRequestModel;
+import com.wanted.recruitment.controller.model.response.RecruitmentDetailResponseModel;
 import com.wanted.recruitment.controller.model.response.RecruitmentResponseModel;
 import com.wanted.recruitment.converter.RecruitmentConverter;
+import com.wanted.recruitment.persistence.repository.CompanyRepository;
 import com.wanted.recruitment.persistence.repository.RecruitmentRepository;
+import com.wanted.recruitment.persistence.repository.entity.CompanyEntity;
 import com.wanted.recruitment.persistence.repository.entity.RecruitmentEntity;
 import com.wanted.recruitment.service.validate.CompanyValidator;
 import com.wanted.recruitment.service.validate.RecruitmentValidator;
@@ -19,6 +22,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -38,6 +42,9 @@ class RecruitmentServiceTest {
 
     @Mock
     private RecruitmentRepository recruitmentRepository;
+
+    @Mock
+    private CompanyRepository companyRepository;
 
     @InjectMocks
     private RecruitmentService recruitmentService;
@@ -183,5 +190,70 @@ class RecruitmentServiceTest {
         when(recruitmentRepository.selectAllRecruitments()).thenReturn(list);
         List<RecruitmentResponseModel> result = recruitmentService.getAllRecruitments();
         assertSame(list, result);
+    }
+
+    @Test
+    @DisplayName("[RecruitmentServiceTest][selectAllRecruitments][Success]")
+    public void selectAllRecruitments() {
+        Long recruitmentId = 1L;
+        Long companyId = 3L;
+        BigDecimal compensation = new BigDecimal("1000000");
+        String position = "백엔드 주니어 개발자";
+        String technology = "Django";
+        String name = "원티드랩";
+        String country = "한국";
+        String region = "서울";
+        String contents = "원티드랩에서 백엔드 주니어 개발자를 채용합니다.";
+        List<Long> recruitmentIds = Arrays.asList(5L, 6L, 7L);
+
+        RecruitmentEntity recruitment = RecruitmentEntity.builder()
+                .id(recruitmentId)
+                .position(position)
+                .compensation(compensation)
+                .technology(technology)
+                .contents(contents)
+                .companyId(companyId)
+                .build();
+
+
+        RecruitmentDetailResponseModel model = RecruitmentDetailResponseModel.builder()
+                .recruitmentId(recruitmentId)
+                .compensation(compensation)
+                .technology(technology)
+                .position(position)
+                .name(name)
+                .country(country)
+                .region(region)
+                .recruitmentIds(recruitmentIds)
+                .build();
+
+        CompanyEntity company = CompanyEntity.builder()
+                .id(companyId)
+                .name(name)
+                .country(country)
+                .region(region)
+                .build();
+
+        when(recruitmentRepository.findById(anyLong())).thenReturn(Optional.of(recruitment));
+        when(companyRepository.findById(anyLong())).thenReturn(Optional.of(company));
+        when(recruitmentRepository.selectAllRecruitments(anyLong(), anyLong())).thenReturn(recruitmentIds);
+        when(recruitmentConverter.convert(any(RecruitmentEntity.class), any(CompanyEntity.class), anyList()))
+                .thenReturn(model);
+
+        RecruitmentDetailResponseModel result = recruitmentService.getRecruitment(recruitmentId);
+
+        verify(recruitmentRepository).findById(recruitmentId);
+        verify(companyRepository).findById(companyId);
+        verify(recruitmentRepository).selectAllRecruitments(recruitmentId, companyId);
+        verify(recruitmentConverter).convert(recruitment, company, recruitmentIds);
+
+        assertEquals(model.getRecruitmentId(), result.getRecruitmentId());
+        assertEquals(model.getCompensation(), result.getCompensation());
+        assertEquals(model.getTechnology(), result.getTechnology());
+        assertEquals(model.getPosition(), result.getPosition());
+        assertEquals(model.getName(), result.getName());
+        assertEquals(model.getCountry(), result.getCountry());
+        assertEquals(model.getRegion(), result.getRegion());
+        assertEquals(model.getRecruitmentIds(), result.getRecruitmentIds());
     }
 }
