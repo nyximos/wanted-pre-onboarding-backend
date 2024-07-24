@@ -16,8 +16,8 @@ public class RecruitmentController {
     private final RecruitmentService recruitmentService;
 
     @PostMapping
-    public ResultResponse addRecruitment(@Valid @RequestBody RecruitmentRequestModel recruitmentRequestModel) {
-        recruitmentService.addRecruitment(recruitmentRequestModel);
+    public ResultResponse add(@Valid @RequestBody RecruitmentRequestModel recruitmentRequestModel) {
+        recruitmentService.add(recruitmentRequestModel);
         return new ResultResponse<>();
     }
 

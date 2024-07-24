@@ -21,7 +21,7 @@ public class RecruitmentService {
     private final RecruitmentRepository recruitmentRepository;
 
     @Transactional
-    public void addRecruitment(RecruitmentRequestModel recruitmentRequestModel) {
+    public void add(RecruitmentRequestModel recruitmentRequestModel) {
         companyValidator.validate(recruitmentRequestModel.getCompanyId());
         recruitmentRepository.save(recruitmentConverter.convert(recruitmentRequestModel));
     }
