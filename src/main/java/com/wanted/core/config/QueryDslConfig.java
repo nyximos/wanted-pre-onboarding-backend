@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @EnableTransactionManagement
-@EnableJpaRepositories(basePackages = "com.booker.**.persistence.repository")
+@EnableJpaRepositories(basePackages = "com.wanted.recruitment.persistence.repository")
 public class QueryDslConfig {
 
     @PersistenceContext
