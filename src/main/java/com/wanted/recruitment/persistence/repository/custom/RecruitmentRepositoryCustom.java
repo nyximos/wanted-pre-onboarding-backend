@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface RecruitmentRepositoryCustom {
     List<RecruitmentResponseModel> selectAllRecruitments();
+
+    List<Long> selectAllRecruitments(Long id, Long companyId);
 }

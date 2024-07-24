@@ -33,4 +33,13 @@ public class RecruitmentRepositoryImpl implements RecruitmentRepositoryCustom {
                 .on(recruitmentEntity.companyId.eq(companyEntity.id))
                 .fetch();
     }
+
+    @Override
+    public List<Long> selectAllRecruitments(Long id, Long companyId) {
+        return queryFactory.select(recruitmentEntity.id)
+                .from(recruitmentEntity)
+                .where(recruitmentEntity.id.ne(id)
+                        .and(recruitmentEntity.companyId.eq(companyId)))
+                .fetch();
+    }
 }
