@@ -110,4 +110,14 @@ class RecruitmentServiceTest {
         assertEquals(model.getTechnology(), entity.getTechnology());
         assertEquals(model.getContents(), entity.getContents());
     }
+
+    @Test
+    @DisplayName("[RecruitmentServiceTest][remove][Success]")
+    public void remove() {
+        Long recruitmentId = 1L;
+        when(recruitmentValidator.validate(recruitmentId)).thenReturn(new RecruitmentEntity());
+        recruitmentService.remove(recruitmentId);
+        verify(recruitmentValidator).validate(recruitmentId);
+        verify(recruitmentRepository).deleteById(recruitmentId);
+    }
 }
