@@ -1,6 +1,7 @@
 
 package com.wanted.recruitment.persistence.repository.entity;
 
+import com.wanted.recruitment.controller.model.request.RecruitmentUpdateRequestModel;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -33,4 +34,10 @@ public class RecruitmentEntity {
     @Column(name = "contents", nullable = false)
     private String contents;
 
+    public void update(RecruitmentUpdateRequestModel recruitmentRequestModel) {
+        this.position = recruitmentRequestModel.getPosition();
+        this.compensation = recruitmentRequestModel.getCompensation();
+        this.technology = recruitmentRequestModel.getTechnology();
+        this.contents = recruitmentRequestModel.getContents();
+    }
 }
