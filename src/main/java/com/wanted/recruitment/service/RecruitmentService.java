@@ -58,4 +58,8 @@ public class RecruitmentService {
         List<Long> recruitmentIds = recruitmentRepository.selectAllRecruitments(recruitment.getId(), company.getId());
         return recruitmentConverter.convert(recruitment, company, recruitmentIds);
     }
+
+    public List<RecruitmentResponseModel> search(String searchText) {
+        return recruitmentRepository.selectAllRecruitments(searchText);
+    }
 }

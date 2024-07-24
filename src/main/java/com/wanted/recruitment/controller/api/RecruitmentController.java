@@ -43,8 +43,13 @@ public class RecruitmentController {
         return new ResultResponse<>(recruitmentService.getAllRecruitments());
     }
 
-    @GetMapping("{/id}")
+    @GetMapping("/{id}")
     public ResultResponse<RecruitmentDetailResponseModel> getRecruitment(@PathVariable("id") Long id) {
         return new ResultResponse<>(recruitmentService.getRecruitment(id));
+    }
+
+    @GetMapping("/search")
+    public ResultResponse<List<RecruitmentResponseModel>> search(@RequestParam("search") String searchText) {
+        return new ResultResponse<>(recruitmentService.search(searchText));
     }
 }
