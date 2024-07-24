@@ -64,7 +64,7 @@ cd wanted-pre-onboarding-backend
 ---
 
 ## 5. 데이터베이스
-<img width="666" alt="image" src="https://github.com/user-attachments/assets/fdd90ced-d4c4-4d16-9bbb-bf2a88aa9136">
+<img width="730" alt="image" src="https://github.com/user-attachments/assets/4bbd2717-069e-4aab-862d-7a83af85c870">
 
 
 ---
