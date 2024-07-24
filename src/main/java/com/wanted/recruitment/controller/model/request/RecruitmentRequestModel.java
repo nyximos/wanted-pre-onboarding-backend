@@ -2,13 +2,15 @@ package com.wanted.recruitment.controller.model.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.math.BigDecimal;
 
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class RecruitmentRequestModel {
 
     @NotNull(message = "company id는 null이 될 수 없습니다.")
