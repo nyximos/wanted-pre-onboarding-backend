@@ -1,6 +1,5 @@
 package com.wanted.recruitment.service.validate;
 
-import com.wanted.core.exception.CompanyNotFoundException;
 import com.wanted.core.exception.UserNotFoundException;
 import com.wanted.recruitment.persistence.repository.UserRepository;
 import lombok.RequiredArgsConstructor;

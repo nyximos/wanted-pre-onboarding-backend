@@ -14,6 +14,6 @@ public class JobApplicationValidator {
     public void validate(String userId) {
         if (jobApplicationsRepository.existsByUserId(userId)) {
             throw new AlreadyAppliedException();
-        };
+        }
     }
 }
