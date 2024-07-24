@@ -11,8 +11,8 @@ import java.math.BigDecimal;
 @Setter
 public class RecruitmentRequestModel {
 
-    @NotNull(message = "ID는 null이 될 수 없습니다.")
-    private Long id;
+    @NotNull(message = "company id는 null이 될 수 없습니다.")
+    private Long companyId;
 
     @NotBlank(message = "채용 포지션을 작성해주세요.")
     private String position;
