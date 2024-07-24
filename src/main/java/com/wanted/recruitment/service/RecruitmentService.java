@@ -2,6 +2,7 @@ package com.wanted.recruitment.service;
 
 import com.wanted.recruitment.controller.model.request.RecruitmentRequestModel;
 import com.wanted.recruitment.controller.model.request.RecruitmentUpdateRequestModel;
+import com.wanted.recruitment.controller.model.response.RecruitmentResponseModel;
 import com.wanted.recruitment.converter.RecruitmentConverter;
 import com.wanted.recruitment.persistence.repository.RecruitmentRepository;
 import com.wanted.recruitment.persistence.repository.entity.RecruitmentEntity;
@@ -10,6 +11,8 @@ import com.wanted.recruitment.service.validate.RecruitmentValidator;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -37,5 +40,9 @@ public class RecruitmentService {
     public void remove(Long id) {
         recruitmentValidator.validate(id);
         recruitmentRepository.deleteById(id);
+    }
+
+    public List<RecruitmentResponseModel> getAllRecruitments() {
+        return recruitmentRepository.selectAllRecruitments();
     }
 }

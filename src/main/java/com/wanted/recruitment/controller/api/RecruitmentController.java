@@ -3,10 +3,13 @@ package com.wanted.recruitment.controller.api;
 import com.wanted.core.wrapper.ResultResponse;
 import com.wanted.recruitment.controller.model.request.RecruitmentRequestModel;
 import com.wanted.recruitment.controller.model.request.RecruitmentUpdateRequestModel;
+import com.wanted.recruitment.controller.model.response.RecruitmentResponseModel;
 import com.wanted.recruitment.service.RecruitmentService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -32,5 +35,10 @@ public class RecruitmentController {
     public ResultResponse remove(@PathVariable("id") Long id) {
         recruitmentService.remove(id);
         return new ResultResponse();
+    }
+
+    @GetMapping
+    public ResultResponse<List<RecruitmentResponseModel>> getAllRecruitments() {
+        return new ResultResponse<>(recruitmentService.getAllRecruitments());
     }
 }
