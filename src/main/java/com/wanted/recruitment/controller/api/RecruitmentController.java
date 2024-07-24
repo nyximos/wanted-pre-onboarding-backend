@@ -27,4 +27,10 @@ public class RecruitmentController {
         recruitmentService.update(id, recruitmentRequestModel);
         return new ResultResponse<>();
     }
+
+    @DeleteMapping("/{id}")
+    public ResultResponse remove(@PathVariable("id") Long id) {
+        recruitmentService.remove(id);
+        return new ResultResponse();
+    }
 }
