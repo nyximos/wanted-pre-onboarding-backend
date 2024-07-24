@@ -36,6 +36,9 @@ public class RecruitmentEntity {
     @Column(name = "contents", nullable = false)
     private String contents;
 
+    @Column(name = "companyId", nullable = false)
+    private Long companyId;
+
     public void update(RecruitmentUpdateRequestModel recruitmentRequestModel) {
         this.position = recruitmentRequestModel.getPosition();
         this.compensation = recruitmentRequestModel.getCompensation();

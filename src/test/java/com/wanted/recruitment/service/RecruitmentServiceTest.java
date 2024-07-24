@@ -60,6 +60,7 @@ class RecruitmentServiceTest {
                 .compensation(compensation)
                 .technology(technology)
                 .contents(contents)
+                .companyId(companyId)
                 .build();
 
         doNothing().when(companyValidator).validate(any(Long.class));
