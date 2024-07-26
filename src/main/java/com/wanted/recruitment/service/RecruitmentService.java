@@ -16,9 +16,9 @@ import com.wanted.recruitment.service.validate.CompanyValidator;
 import com.wanted.recruitment.service.validate.JobApplicationValidator;
 import com.wanted.recruitment.service.validate.RecruitmentValidator;
 import com.wanted.recruitment.service.validate.UserValidator;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -54,10 +54,12 @@ public class RecruitmentService {
         recruitmentRepository.deleteById(id);
     }
 
+    @Transactional(readOnly = true)
     public List<RecruitmentResponseModel> getAllRecruitments() {
         return recruitmentRepository.selectAllRecruitments();
     }
 
+    @Transactional(readOnly = true)
     public RecruitmentDetailResponseModel getRecruitment(Long id) {
         RecruitmentEntity recruitment = recruitmentRepository.findById(id).orElseThrow(RecruitmentNotFoundException::new);
         CompanyEntity company = companyRepository.findById(recruitment.getCompanyId()).orElseThrow(CompanyNotFoundException::new);
@@ -65,6 +67,7 @@ public class RecruitmentService {
         return recruitmentConverter.convert(recruitment, company, recruitmentIds);
     }
 
+    @Transactional(readOnly = true)
     public List<RecruitmentResponseModel> search(String searchText) {
         return recruitmentRepository.selectAllRecruitments(searchText);
     }
