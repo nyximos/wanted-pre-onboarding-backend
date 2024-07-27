@@ -32,8 +32,7 @@ public class RecruitmentEntity {
     @Column(name = "technology", nullable = false)
     private String technology;
 
-    @Lob
-    @Column(name = "contents", nullable = false)
+    @Column(name = "contents", nullable = false, columnDefinition = "TEXT")
     private String contents;
 
     @Column(name = "companyId", nullable = false)
