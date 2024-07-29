@@ -6,6 +6,7 @@
 - springboot 3.3.2
 - MySql 8.4.0
 - http://localhost:6719
+- http://localhost:6719/swagger-ui/index.html
 
 ---
 
